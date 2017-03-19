@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>8 Minutes Energy: Order List</title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link href="../bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href="../plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />	
+	<link href="../dist/css/8minutes.css" rel="stylesheet" type="text/css" />
+	<!-- Select2: plugin for select box styling -->
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	<style type="text/css">
+		.popover{
+			max-width:100%;
+			height:200px;
+			margin-left:200px;
+		}		
+	    #map {
+			width: 350px;
+			height: 200px;
+		}
+	</style>
+</head>
+<body class="container-fluid" style="background-color:#f0f0f0;">
+<div class="row">
+	<div class="col-xs-12 topHeader e-shadow1 bg-white" style="position:fixed; z-index:100; ">
+		<div class="row">
+			<div class="col-xs-12">
+				<img src="../dist/img/logo_8minutes.png" alt="8Minutes Logo">
+				<div class="pull-right grey" style="padding-top:20px;">
+					<a href="#" class="navInactive"  id="loginlnk" >Login</a>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+<script src="../plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
+<script src="../dist/js/index.js"></script>
+<!-- jQuery 1.12.4 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Bootstrap 3.3.78.5463 JS -->
+<script src="../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- Select2: plugin for styling select boxes -->
+<script src="../plugins/select2/select2.full.min.js" type="text/javascript"></script>
+<!-- angular JS-->
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+<script src="../dist/js/search.js"></script>
+	$(function () {
+		//Initialize Select2 Elements
+		
+	});
+  function initialize() {
+    var mapCanvas = document.getElementById('map');
+    var mapOptions = {
+      center: new google.maps.LatLng(44.5403, 78.5463),
+      zoom: 8,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(mapCanvas, mapOptions)
+  }
+  google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<script>
+$(document).ready(function(){
+  $("registerBtn").click(function(){
+      $('register').hide();
+  });
+});
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- login -->
+			<div id="login">
+				<div style="padding:20px; background-color:#eee;"><h3 style="display:inline;">Go Solar: Login</h3><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+
+				
+				<form action="javascript:void(0)" method="post" id="loginForm">
+					<div class="modal-body" style="padding:0 50px;">
+					<h3 id="myModalLabel"></h3>
+						<div class="row">
+							<label for="userName" class="col-xs-4">
+								Username
+							</label>
+							<div class="col-xs-8">
+								<input id="userName" required type="text" class="form-control" style="width:100%;">
+								<input type="button" class="btn btn-link forgotUserName"  value="Forgot username?">							
+							</div>
+						</div>
+						<div class="row">
+							<label for="password" class="col-xs-4">
+								Password
+							</label>
+							<div class="col-xs-8">
+								<input type="password" required id="password" class="form-control" style="width:100%;">
+								<input value="Forgot password?" class="btn btn-link forgotUserName" >														
+							</div>
+						</div>									
+					</div>
+					<div class="modal-footer" style="border-top:0;">
+						<div class="text-center">
+							<input type="reset" class="btn btn-default cancelBtn"  value="Reset">
+							<input type="submit" class="btn btn-warning login"  value="Login">
+							<br><br><input class="btn btn-link registerBtn" value="Not registered?" >
+							<h6>If you are an installer, please contact 8Minutes team for access.</h6>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- password -->
+			<div id="forgotUserNamePasswordSec" style="display:none;">
+				<div style="padding:20px; background-color:#eee;"><h3 style="display:inline;">Go Solar: Forgot password / username</h3><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+				<form action="javascript:void(0)" method="post" id="forgotCred">
+					<div class="modal-body" style="padding:0 50px;">
+					<h3 id="myModalLabel"></h3>
+						<div class="row">
+							<div class="col-xs-4">Forgot your </div>
+							<div class="col-xs-8">
+								
+								<input type="radio" checked  name="forgotRadio" value="username" id="usernameR" >  
+								<label for="usernameR">Username</label> (or) 
+								<input type="radio" name="forgotRadio" id="passwordR" value="password" >
+								<label for="passwordR" >password</label>
+								
+							</div>
+							<label for="email" class="col-xs-4">Email</label>
+							<div class="col-xs-8">
+								<input type="text" id="forgot-email" required class="form-control" style="width:100%;">
+							</div>
+						</div>								
+					</div>
+					<div class="modal-footer" style="border-top:0;">
+						<div class="text-center">
+							<input type="reset" class="btn btn-default cancelBtn"  value="Reset">
+							<input type="submit" class="btn btn-warning login"  value="Email Details">
+							<br><br><input value="Not registered?" class="btn btn-link registerBtn" >
+							<h6>If you are an installer, please contact 8Minutes team for access.</h6>
+						</div>
+					</div>
+				</form>
+			</div>
+			
+			<!-- register -->
+			
+
+			<div id="register" style="display:none;">
+				<form action="javascript:void(0)" method="post" id="CreateAcc">
+				
+					<div style="padding:20px; background-color:#eee;">
+						<h3 style="display:inline;">Go Solar: New User Registration</h3>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body" style="padding:0 50px;">
+						<h3 id="myModalLabel"></h3>
+						<div class="row">
+							<div class="col-xs-4">
+								Username
+							</div>
+							<div class="col-xs-8">
+								<input type="text" required id="loginUsername" class="form-control" style="width:100%;">
+								<h6>More than 8 characters with combination of text and number only.</h6>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<div class="col-xs-4">
+								Password
+							</div>
+							<div class="col-xs-8">
+								<input id="reg-password" required type="password" class="form-control" style="width:100%;">
+								<h6>More than 8 characters</h6>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4">
+								Re-confirm Password
+							</div>
+							<div class="col-xs-8">
+								<input id="repassword" required type="password" class="form-control" style="width:100%;">
+								<h6>Re-ender same password</h6>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4">
+								Salutation
+							</div>
+							<div class="col-xs-8">
+								<select class="select2" required id="salutation" style="width:70px">
+									<option value="Mr">Mr</option>
+									<option value="Mrs">Mrs</option>
+									<option value="Others">Others</option>
+								</select>
+								<br>
+								<br>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-4">
+								Full Name
+							</div>
+							<div class="col-xs-8">
+								<input placeholder="First Name" required type="text" id="fname" class="form-control" style="width:45%;float:left;"> 
+								<input placeholder="Last Name" required type="text" id="lname" class="form-control" style="width:45%;float:right;">
+								<br style="clear:both">
+								<br>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4">
+								Email ID
+							</div>
+							<div class="col-xs-8">
+								<input id="userEmail" type="email" required class="form-control" style="width:100%;">
+								<h6>This will be used for all your communications</h6>							
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4">
+								Mobile #
+							</div>
+							<div class="col-xs-8">
+								<input id="phone" type="text" required class="form-control" style="width:100%;">
+								<h6>This will be used for all your communications</h6>
+							</div>
+						</div>								
+						<div class="row">
+							<div class="col-xs-4">
+								Address (line 1) 
+							</div>
+							<div class="col-xs-8">
+								<input id="address1" type="text" required class="form-control" style="width:100%;">
+								<br>
+							</div>
+						</div>								
+						<div class="row">
+							<div class="col-xs-4">
+								Address (line 2) 
+							</div>
+							<div class="col-xs-8">
+								<input id="address2" type="text" required class="form-control" style="width:100%;">
+								<br>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4">
+								PIN
+							</div>
+							<div class="col-xs-8">
+								<input id="pin" type="text" required class="form-control" style="width:100%;">
+								<br>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="modal-footer" style="border-top:0;">
+						<div class="text-center">
+							<div class="text-center">
+								<input type="reset"  class="btn btn-default cancelBtn"  value="Reset">
+								<input type="submit" class="btn btn-warning login"  value="Register">
+								<br><br><input style="width:255px" class="btn btn-link loginBtn" value="Already registered? Login here." >
+								<h6>If you are an installer, please contact 8Minutes team for access.</h6>
+							</div>
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+
+
+
+		</div>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+
+$("#myModal").modal("show")
+
+$("#loginForm").on("submit", function() {
+
+		var loginUsername       = $("#loginUsername").val();
+		var loginPassword     = $("#loginPassword").val();
+
+		var data = {
+			
+			username : $("#userName").val(),
+			password : $("#password").val()
+		}
+		
+
+		$.ajax({
+			url:"/api/login",
+			type:"POST",
+			data:data,
+			error:function(d){
+				$("#loginForm")[0].reset()
+				showNotification("Error, Please enter valid credentials","error")
+			},
+			success: function (d) {
+				if(d && d.success){
+					$("#loginForm")[0].reset()
+					window.sessionStorage.token = d.token;
+
+					if(d.role && d.role === "admin"){
+						document.location.href = "admin_order-list.html"
+					}else{
+						document.location.href = "user_dashboard.html"
+					}
+
+				}	
+			}
+		})
+});
+
+$(".forgotUserName").on("click",function () {
+	document.getElementById('login').style.display = 'none'; 
+	document.getElementById('forgotUserNamePasswordSec').style.display = 'block'; 
+	document.getElementById('register').style.display = 'none';
+})
+
+$(".loginBtn").on("click",function () {
+	document.getElementById('login').style.display = 'block'; 
+	document.getElementById('forgotUserNamePasswordSec').style.display = 'none'; 
+	document.getElementById('register').style.display = 'none';
+});
+
+$(".registerBtn").on("click", function () {
+	document.getElementById('login').style.display = 'none'; 
+	document.getElementById('forgotUserNamePasswordSec').style.display = 'none'; 
+	document.getElementById('register').style.display = 'block';
+});
+
+$("#loginlnk").on("click",function(){
+	document.getElementById('login').style.display = 'block'; 
+	document.getElementById('forgotUserNamePasswordSec').style.display = 'none'; 
+	document.getElementById('register').style.display = 'none';
+	$("#myModal").modal("show")
+
+})
+
+
+$("#CreateAcc").on("submit", function() {
+
+
+		var data = {
+			"username": $("#loginUsername").val(),
+			"password": $("#reg-password").val(),
+			"salutation":$("#salutation").val(),
+			"fname":$("#fname").val(),
+			"lname":$("#lname").val(),
+			"address1":$("#address1").val(),
+			"address2":$("#address2").val(),
+			"address3":$("#address3").val(),
+			"email":$("#userEmail").val(),
+			"pin":$("#pin").val(),
+			"phone":$("#phone").val()
+		}
+
+
+		$.ajax({
+			url:"/api/register",
+			type:"POST",
+			data:data,
+			error:function(d){
+				showNotification("Error! Please try with other username" ,"error")
+			},
+			success: function (d) {
+				$("#loginForm")[0].reset()
+				showNotification("Success! Your account is created, please login to continue","success")
+				document.getElementById('login').style.display = 'block'; 
+				document.getElementById('forgotUserNamePasswordSec').style.display = 'none'; 
+				document.getElementById('register').style.display = 'none';
+			}
+		})
+});
+$("#forgotCred").on("submit", function() {
+
+		var data = {};
+		var type = $('[name="forgotRadio"]:checked').val();
+		data["email"] = $('#forgot-email').val();
+
+		$.ajax({
+			url:"/api/forgot-" + type,
+			type:"POST",
+			data:data,
+			success: function (d) {
+				$("#loginForm")[0].reset()
+				$("#forgotCred")[0].reset()
+				showNotification("Success, Please watch out your mail for further details","success")
+				document.getElementById('login').style.display = 'block'; 
+				document.getElementById('forgotUserNamePasswordSec').style.display = 'none'; 
+				document.getElementById('register').style.display = 'none';
+			}
+		})
+});
+
+$(".select2").select2();
+	
+</script>

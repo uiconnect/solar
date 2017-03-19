@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>8 Minutes Energy: Installer Visit Details</title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link href="/public/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href="/public/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />	
+	<link href="/public/dist/css/8minutes.css" rel="stylesheet" type="text/css" />
+	<!-- Select2: plugin for select box styling -->
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	<style type="text/css">
+		.popover{
+			max-width:100%;
+			height:200px;
+			margin-left:200px;
+		}		
+	    #map {
+			width: 350px;
+			height: 200px;
+		}
+		.consultantDetails,.feedbackForm,.feedback{
+			display: none;
+		}
+	</style>
+</head>
+<body class="container-fluid" style="background-color:#f0f0f0;">
+<div class="row">
+	<div class="col-xs-12 topHeader e-shadow1 bg-white" style="position:fixed; z-index:100; ">
+		<div class="row">
+			<div class="col-xs-11">
+				<img src="/public/dist/img/logo_8minutes.png" alt="8Minutes Logo">
+				<div class="pull-right grey" style="padding-top:20px;">
+					<a href="user_dashboard.html" class="navInactive">My Dashboard</a>&#8226;
+					<a href="user_explore.html" class="navActive">Go Solar</a>&#8226;
+					<a href="user_installation.html" class="navInactive">My Installations</a>&#8226;
+					<a href="user_referrals.html" class="navInactive">My Referrals</a>
+				</div>
+			</div>
+			<div class="col-xs-1" style="padding-top:20px;">
+				<div class="profileImg" style="background-image:url('/public/dist/img/me2.jpg');">&nbsp;</div>
+				<div class="dropdown" style="display:inline;">
+				  <a href="#" class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border:0;">
+				   <span class="caret"></span>
+				  </a>
+				  <ul class="dropdown-menu dropdown-menu-right" style="font-size:12px" aria-labelledby="dropdownMenu1">
+				    <li><a href="user_profile.html">MY PROFILE</a></li>
+				    <li><a href="user_contact.html">CONTACT <span style="font-weight:500;">8MINUTES</span></a></li>					
+				    <li role="separator" class="divider"></li>
+				    <li><a href="#" id="logout">LOGOUT</a></li>
+				  </ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row" style="background-color:#f8f8f8; padding:5px 50px; top:55px; position:fixed; border-bottom:1px solid #ddd; z-index:99; width:100%;">
+	<div class="col-xs-12">
+		<div class="container1">
+			<ul class="progressbar">
+				<li class="active">Schedule Visit</li>
+				<li class="active">Solar Appointment</li>
+				<li>Energy Saving Proposal</li>
+				<li>Payments</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div style="margin:160px;"></div>
+<!-- visit feedback form -->
+<div class="feedback" id="feedbackForm">
+	<div class="row">
+	<div class="col-sm-1"></div>
+	<div class="col-sm-10">
+		<div class="box1" !style="height:300px;">
+			<div class="row" style="background-color:#f8f8f8;">
+				<div class="col-xs-12">
+					<h3 class="text-grey text-center" style="margin:20px 0;"><i class="fa fa-pencil mar-r10"></i>Consultation Visit Experience Feedback</h3>
+				</div>
+			</div>
+			<div class="row" style="padding-top:30px;">
+				<div class="col-xs-1 text-right"></div>				
+				<div class="col-xs-7 text-left"><h5>1. Was the site visit representative on time?</h5></div>
+				<div class="col-xs-1 text-center">
+					  <input value="Yes" name="fbCB1" type="radio" checked><h5 style="display:inline;">&nbsp;Yes</h5>
+				</div>
+				<div class="col-xs-1 text-center">
+					  <input value="No" name="fbCB1" type="radio"><h5 style="display:inline;">&nbsp;No</h5>
+				</div>
+				<div class="col-xs-2"></div>
+			</div>
+			<hr style="margin:5px;">
+			<div class="row">
+				<div class="col-xs-1"></div>				
+				<div class="col-xs-7 text-left"><h5>2. Have you discussed your preferences on the rooftop with the representative?</h5></div>
+				<div class="col-xs-1 text-center">
+					  <input value="Yes" checked name="fbCB2" type="radio"><h5 style="display:inline;">&nbsp;Yes</h5>
+				</div>
+				<div class="col-xs-1 text-center">
+					  <input value="No" name="fbCB2" type="radio"><h5 style="display:inline;">&nbsp;No</h5>
+				</div>
+				<div class="col-xs-2"></div>
+			</div>
+			<hr style="margin:5px;">			
+			<div class="row">
+				<div class="col-xs-1"></div>				
+				<div class="col-xs-7 text-left"><h5>3. Did the partner explain the tentative positioning of the system on your rooftop?</h5></div>
+				<div class="col-xs-1 text-center">
+					  <input value="Yes" checked name="fbCB3" type="radio"><h5 style="display:inline;">&nbsp;Yes</h5>
+				</div>
+				<div class="col-xs-1 text-center">
+					  <input value="No" name="fbCB3" type="radio"><h5 style="display:inline;">&nbsp;No</h5>
+				</div>
+				<div class="col-xs-2"></div>
+			</div>
+			<hr style="margin:5px;">			
+			<div class="row">
+				<div class="col-xs-1"></div>				
+				<div class="col-xs-7 text-left"><h5>4. Was the partner able to answer all your questions?</h5></div>
+				<div class="col-xs-1 text-center">
+					  <input value="Yes" checked name="fbCB4" type="radio"><h5 style="display:inline;">&nbsp;Yes</h5>
+				</div>
+				<div class="col-xs-1 text-center">
+					  <input value="No" name="fbCB4" type="radio"><h5 style="display:inline;">&nbsp;No</h5>
+				</div>
+				<div class="col-xs-2"></div>
+			</div>
+			<hr style="margin:5px;">			
+			<div class="row">
+				<div class="col-xs-1"></div>				
+				<div class="col-xs-7 text-left"><h5>5. Which payment options seems attractive to you?</h5></div>
+				<div class="col-xs-1 text-center">
+					  <input value="Buy" checked name="fbCB5" type="radio"><h5 style="display:inline;">&nbsp;Buy</h5>
+				</div>
+				<div class="col-xs-1 text-center">
+					  <input value="PPA" name="fbCB5" type="radio"><h5 style="display:inline;">&nbsp;PPA</h5>
+				</div>
+				<div class="col-xs-2"></div>
+			</div>
+			<hr style="margin:5px;">			
+			<!-- 
+				<div class="row" style="padding-top:30px;">
+				<div class="col-xs-1"></div>				
+				<div class="col-xs-6 text-left"><h5>6. Was there any damage sustained to your roof or property during system installation?</h5></div>
+				<div class="col-xs-1 text-center">
+					  <input value="yes" checked name="fbCB6" type="radio">
+				</div>
+				<div class="col-xs-1 text-center">
+					  <input value="no" name="fbCB6" type="radio">
+				</div>
+				<div class="col-xs-3"></div>
+			</div>
+			<div class="row" style="padding-top:30px;">
+				<div class="col-xs-1"></div>				
+				<div class="col-xs-6 text-left"><h5>7. Would you recommend 8minutes to your family, friends and neighbours?</h5></div>
+				<div class="col-xs-1 text-center">
+					  <input value="yes" checked name="fbCB7" type="radio">
+				</div>
+				<div class="col-xs-1 text-center">
+					  <input value="no" name="fbCB7" type="radio">
+				</div>
+				<div class="col-xs-3"></div>
+			</div> -->
+			<div class="row">
+				<div class="col-xs-1"></div>				
+				<div class="col-xs-7 text-left"><h5>6. How would you rate the experience? (Rate us out of 5)</h5></div>
+				<div class="col-xs-4">
+					  <input type="radio" style="margin-right:5px;" name="fbCB8" value="V.Good">1
+					  <input type="radio" style="margin-right:5px; margin-left:10px;" name="fbCB8" value="Good">2
+					  <input type="radio" style="margin-right:5px; margin-left:10px;" name="fbCB8" value="OK">3
+					  <input type="radio" style="margin-right:5px; margin-left:10px;" name="fbCB8" value="Bad">4
+					  <input type="radio" checked style="margin-right:5px; margin-left:10px;" name="fbCB8" value="V.Bad">5
+				</div>
+			</div>
+			<div class="row" style="padding-top:30px;">
+				<div class="col-xs-3 text-right">Feel free to write it too.</div>
+				<div class="col-xs-9">
+					  <textarea rows="3" class="form-control" id="desc" style="width:100%;"></textarea>
+				</div>
+			</div>
+			<p style="margin:10px;">
+		</div>
+	</div>
+	<div class="col-sm-1"></div>
+</div>
+<div class="row">
+	<div class="col-xs-12 text-center" style="padding:5px;">
+		<h4>If we missed anything, one of our Energy Specialists will call you to answer any questions.</h4>
+	</div>
+</div>
+</div>
+
+
+<!-- installer details -->
+
+	<div class="row "  id="HomeEvaluationSchedule">
+	  	<div class="col-sm-1"></div>
+	  	<div class="col-sm-10">
+	  		<div class="box1" style="height:400px;">
+	  			<div class="row"  style="background-color:#f8f8f8;">
+	  				<div class="col-xs-12">
+	  					<h3 class="text-grey text-center" style="margin:20px 0;"><i class="fa fa-calendar-check-o mar-r10"></i>Home Evaluation Schedule</h3>
+	  				</div>
+	  			</div>
+	  			<div class="row " style="padding-top:40px;">
+	  				<div class="col-xs-7 pad20 text-center" style="padding-top:0; border-right:1px solid #ddd;">
+	  					<div class="row">
+	  						<div class="col-xs-5 text-left"><h4 style="margin:0;">Visit Date & Time</h4></div>
+	  						<div class="col-xs-7">
+	  							<h4 class="text-left" id="req_visit_time" style="margin:0; font-weight:600;"></h4>
+	  						</div>
+	  					</div>
+	  					<hr>
+	  					<div class="row">
+	  						<div class="col-xs-5 text-left"><h4 style="margin:0;">Location</h4></div>
+	  						<div class="col-xs-7">
+	  							<h4 class="text-left" id="address" style="margin:0; font-weight:600;"></h4>
+							</div>
+	  					</div>					
+	  					<hr>
+	  					<div class="row">
+	  						<div class="col-xs-5 text-left"><h4 style="margin:0;">Contact Person</h4></div>
+	  						<div class="col-xs-7">
+	  							<h4 class="text-left" id="owner" style="margin:0; font-weight:600;"></h4>
+	  						</div>
+	  					</div>
+	  				</div>
+	  				<div class="col-xs-5 text-center consultantDetails" style="height:300px; padding-top:0;">
+	  					<h4 style="margin:0;"><b>Energy Partner</b></h4>
+	  					<div class="row" style="padding-top:30px;">
+	  						<div class="col-xs-5 pad20 text-right" style="height:200px; padding-top:0;">
+	  							<img src="/public/dist/img/person.png" id="pic" style="width:100%; border:1px solid #ddd; padding:5px;" alt="Installer Photo">
+	  						</div>
+	  						<div class="col-xs-7 text-left" style="height:300px; padding-top:0; padding-left:0;">
+	  							Name & Role<br>
+								<h4 style="margin:0;">
+									<span style="font-weight:600" id="consultantNamer"></span><br>
+								</h4>
+								<hr style="margin:5px 0;">
+								Role<br>
+								<span style="font-weight:600" id="consultant_designation"></span>
+								<hr style="margin:5px 0;">
+								Verified Partner<br>
+	  							<span style="font-weight:600" id="organization"></span>	  							
+								<hr style="margin:5px 0;">
+								Ratings<br>							
+
+	  							<!-- <h4 id="contactNo"></h4>-->
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</div>
+	  			<div class="row" id="scheduleBtmTxt">
+	  				<div class="col-xs-12 text-center" style="padding:5px;">
+  						<h4>We’ve sent you an email invite and will be calling you on the day of the appointment to confirm your appointment.</h4>
+					</div>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  	<div class="col-sm-1"></div>
+</div>
+<div class="row feedback" id="SubmitViewProposalBtn">
+	<div class="col-xs-12 text-center pad20">
+		<button class="btn btn-warning" style="width:300px;" id="submited" >Submit</button>
+	</div>
+</div>
+<script src="/public/plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
+<script src="/public/dist/js/index.js"></script>
+<!-- jQuery 1.12.4 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Bootstrap 3.3.78.5463 JS -->
+<script src="/public/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- Select2: plugin for styling select boxes -->
+<script src="/public/plugins/select2/select2.full.min.js" type="text/javascript"></script>
+<!-- angular JS-->
+<script src="/public/plugins/angular/angular.min.js"></script>
+<script src="/public/dist/js/search.js"></script>
+<!-- Initialize Select2 elements -->
+<script type="text/javascript">
+$(function () {
+	$(".select2").select2();
+});
+</script>
+<script>
+	function initialize() {
+	var mapCanvas = document.getElementById('map');
+		var mapOptions = {
+			center: new google.maps.LatLng(44.5403, 78.5463),
+			zoom: 8,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		}
+	var map = new google.maps.Map(mapCanvas, mapOptions)
+	}
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+
+<script type="text/javascript">
+	
+	$(function(){
+		var id = window.location.hash.split("");
+		id.shift();
+		id = id.join('');
+
+        var installer_id;
+
+		$.ajax({
+			url:"/api/requirement/"+id,
+			type:"POST",
+			data:{token:window.sessionStorage.token},
+            error: function () {
+                document.location.href = "user_dashboard.html"
+
+            },
+			success: function (d) {
+				
+				var status = d.status || "pending";
+
+
+
+				$("#req_visit_time").html(dateFormat(d.req_visit_date) + " , " + d.req_visit_time)
+				$("#address").html(d.address_l1 + "<br>" +d.address_l2 + "<br>" + d.location + "<br>" + d.pin)
+				$("#owner").html(d.owner_salutation + " " + d.owner_fname + " " + d.owner_lname)
+
+				if (d.status == "View_Proposal") {
+					$("#submited").html("Submit Feedback &amp; View Proposal");
+					$("#HomeEvaluationSchedule").hide()
+				}
+
+                installer_id = d.installer_id;
+				if(installer_id){
+
+					$.ajax({
+						url:"/api/installer/"+installer_id,
+						type:"POST",
+						data:{token:window.sessionStorage.token},
+						success: function (d) {
+							/*<h4 style="margin:0;"><span style="font-weight:600" id="consultantNamer">Mr. Jatin Santosh Kumar</span></h4>
+	  							<h4 id="consultant_designation">Lead technician</h4>
+	  							<h4 id="organization">Orion Consulting Solutions Pvt Ltd.</h4>
+	  							<h4 id="contactNo">M: 99840-23393</h4>*/
+
+	  						$("#consultantNamer").html(d.name);
+	  						$("#consultant_designation").html(d.desig);
+	  						$("#organization").html(d.companyname); // need to get company id
+	  						$("#contactNo").html(d.phone);
+	  						$("#pic").attr("src",d.pic)
+						}
+					});
+					$(".consultantDetails").show()
+				}
+
+
+                if(status === "View_Proposal"){
+				    $(".feedbackForm,.feedback").show();
+                }
+
+			}
+		});
+
+		$.ajax({
+			url:"/api/feedback/"+id,
+			type:"POST",
+			data:{token : window.sessionStorage.token},
+			error:function () {
+				
+			},
+			success: function (d) {
+				$("#desc"). val(d.cust_feedback)
+				$("input[value='"+ d.rating +"']").attr("checked","checked")
+			}
+		});
+
+		$("#SubmitViewProposalBtn").on("click",function () {
+			
+			
+
+			var data = {
+				cust_feedback  : $("#desc"). val(),
+				vq1            : $("input[name='fbCB1']:checked").val(),
+				vq2            : $("input[name='fbCB2']:checked").val(),
+				vq3            : $("input[name='fbCB3']:checked").val(),
+				vq4            : $("input[name='fbCB4']:checked").val(),
+				vq5            : $("input[name='fbCB5']:checked").val(),
+				vq6            : $("input[name='fbCB6']:checked").val(),
+				vq7            : $("input[name='fbCB7']:checked").val(),
+				vq8            : $("input[name='fbCB8']:checked").val(),
+				requirement_id : id,
+				_id            : id,
+				installer_id   : installer_id,
+				token          : window.sessionStorage.token
+			}
+
+			$.ajax({
+				url:"/api/feedback",
+				type:"POST",
+				data:data,
+				error:function () {
+					$.ajax({
+						url:"/api/feedback/"+id,
+						type:"PATCH",
+						data:data,
+						error:function () {
+							
+						},
+						success: function (d) {
+		                    var statusData = {
+		                        status : "View_Contract",
+		                        token  : window.sessionStorage.token
+		                    }
+		                    $.ajax({
+		                        url:"/api/requirement/"+id,
+		                        type:"PATCH",
+		                        data:statusData,
+		                        success: function (d) {
+							       //document.location.href = "user_proposal.html#"+id;
+							       document.location.href = "user_proposal.html#"+id;
+		                        }
+		                    });
+						}
+					});
+				},
+				success: function (d) {
+                    var statusData = {
+                        status : "View_Contract",
+                        token  : window.sessionStorage.token
+                    }
+                    $.ajax({
+                        url:"/api/requirement/"+id,
+                        type:"PATCH",
+                        data:statusData,
+                        success: function (d) {
+					       //document.location.href = "user_proposal.html#"+id;
+					       document.location.href = "user_proposal.html#"+id;
+                        }
+                    });
+
+				}
+			});
+		})
+	})
+</script>
+
+
+
+
+
+
+</body>
+</html>

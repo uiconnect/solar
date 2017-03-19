@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>8 Minutes Energy: My Dashboard Details</title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link href="/public/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href="/public/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+	<link href="/public/dist/css/8minutes.css" rel="stylesheet" type="text/css" />
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	<style type="text/css">
+		.popover{
+			max-width:100%;
+			height:200px;
+			margin-left:200px;
+		}		
+	    #map {
+			 height: 400px;
+        width: 100%;
+		}
+	</style>
+</head>
+<body class="container-fluid">
+<div class="row">
+	<div class="col-xs-12 topHeader e-shadow1 bg-white" style="position:fixed; z-index:100;">
+		<div class="row">
+			<div class="col-xs-11">
+				<img src="/public/dist/img/logo_8minutes.png" alt="8Minutes Logo">
+				<div class="pull-right grey" style="padding-top:20px;">
+					<a href="user_dashboard.html" class="navActive">My Dashboard</a>&#8226;
+					<a href="user_explore.html" class="navInactive">Go Solar</a>&#8226;
+					<a href="user_installation.html" class="navInactive">My Installations</a>&#8226;
+					<a href="user_referrals.html" class="navInactive">My Referrals</a>
+				</div>
+			</div>
+			<div class="col-xs-1" style="padding-top:20px;">
+				<div class="profileImg" style="background-image:url('/public/dist/img/me2.jpg');">&nbsp;</div>
+				<div class="dropdown" style="display:inline;">
+				  <a href="#" class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border:0;">
+				   <span class="caret"></span>
+				  </a>
+				  <ul class="dropdown-menu dropdown-menu-right" style="font-size:12px" aria-labelledby="dropdownMenu1">
+				    <li><a href="user_profile.html">MY PROFILE</a></li>
+				    <li><a href="user_contact.html">CONTACT <span style="font-weight:500;">8MINUTES</span></a></li>					
+				    <li role="separator" class="divider"></li>
+				    <li><a href="#" id="logout">LOGOUT</a></li>
+				  </ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row" style="background-color:#eee; height:400px;">
+	<div class="col-xs-8" style="background-image: url('/public/dist/img/banner.jpeg'); background-size: 1024px; background-repeat: no-repeat; height:400px; top:55px;">
+		<span style="left:30px; top:140px; position: relative; color:#fff; font-size:42px; letter-spacing:-1px; font-weight:600; opacity:.9">
+			<span style="font-size:30px; font-weight:300;"><i class="fa fa-plug mar-r10"></i><i class="fa fa-caret-right mar-r10"></i><i class="fa fa-sun-o mar-r10 orange"></i></span><br>
+			Future is in solar. Make that switch.<br>
+			<button class="btn btn-default mar-r10"><i class="fa fa-play mar-r10"></i>Watch Video</button>
+			<button class="btn btn-warning" onClick="document.location.href='user_explore.html'">Explore</button>
+		</span>
+	</div>
+	<div class="col-xs-4 text-center" style="top:60px; height:330px; overflow: auto;">
+		<h4>My Orders</h4>
+		<table id="orderList" class="table table-default" style="width:100%;">
+			<tr>
+				<td style="width:1%;"><b>Order Id</b></td>
+				<td class="text-left"><b>Location</b></td>
+				<td class="text-left"><b>Status</b></td>
+			</tr>
+		</table>
+		<button class="btn btn-warning mar-r10" style="display:inline; width:140px;" onClick="document.location.href='user_explore.html'">Add New Profile</button>
+		<button class="btn btn-warning" style="display:inline; width:140px;" onClick="document.location.href='user_referrals.html'">Refer</button>
+		<p>
+	</div>
+</div>
+<div class="row" style="height:80px; padding:0px; background-color:#444;">
+	<div class="col-xs-12">
+		<h3 class="white text-center">Client Speak</h3>
+	</div>
+</div>
+<div class="row" style="background-color:#444;">
+	<div class="col-xs-4" style="padding:0 30px; height:150px; border-right:1px solid #999;">
+		<h5 style="color:#aaa; line-height:130%;">“Working with 8Minute team on our 3rd Solar project was a great success and they have a good team of people right from when the initial consultation starts, through the design process, project sign off and installation on site. I would be more than happy to work with 8Minutes again on another project in the near future.”</h5><h4 class="white text-right">Surjitwala, New Delhi</h4>
+	</div>
+	<div class="col-xs-4" style="padding:0 30px; height:150px; border-right:1px solid #999;">
+		<h5 style="color:#aaa; line-height:130%;">“Awesome is the word. Working with 8Minute team on our 1st Solar project was a great success and they have a good team of people right from when the initial consultation starts, through the design process, project sign off and installation on site.”</h5><h4 class="white text-right">Nalini Chopra, Gurgaon</h4>
+	</div>
+	<div class="col-xs-4" style="padding:0 30px; height:150px;">
+		<h5 style="color:#aaa; line-height:130%;">“I would be more than happy to work with 8Minute team again on another project in the near future. Working with 8Minute team on our Solar project was a great success and they have a good team of people right from when the initial consultation starts, through the design process, project sign off and installation on site.”</h5><h4 class="white text-right">Janardan Rao, Shahadara</h4>
+	</div>
+</div>
+<div class="row" style="height:40px; background-color:#444;"></div>
+<div class="row">
+	<div class="col-xs-3" style="padding:30px 20px;">
+		<h3>Solar Installations in Delhi NCR</h3>
+	</div>
+	<div class="col-xs-9" style="padding:0;">
+		
+		<div id="map"></div>
+	    <script>
+	    	var map;
+	      function initMap() {
+	        var uluru = {lat: -25.363, lng: 131.044};
+	        map = new google.maps.Map(document.getElementById('map'), {
+	         zoom: 10,
+	          mapTypeId: 'satellite',
+	          //mapTypeId: google.maps.MapTypeId.ROADMAP,
+	          center: {lat : 28.5248825, lng : 77.190029}
+	        });
+	        
+	        // Define the LatLng coordinates for the outer path.
+	        var outerCoords = [
+	          {lat: 17.864, lng: 72.848495}, // north west
+	          {lat: 19.064, lng: 72.848495}, // south west
+	          {lat: 19.064, lng: 74.348495}, // south east
+	          {lat: 17.864, lng: 74.348495}  // north east
+	        ];
+
+	        // Define the LatLng coordinates for an inner path.
+	        var innerCoords1 = [
+	          {lat: -33.364, lng: 154.207},
+	          {lat: -34.364, lng: 154.207},
+	          {lat: -34.364, lng: 155.207},
+	          {lat: -33.364, lng: 155.207}
+	        ];
+
+	        // Define the LatLng coordinates for another inner path.
+	        var innerCoords2 = [
+	          {lat: -33.364, lng: 156.207},
+	          {lat: -34.364, lng: 156.207},
+	          {lat: -34.364, lng: 157.207},
+	          {lat: -33.364, lng: 157.207}
+	        ];
+
+	        //map.data.add({geometry: new google.maps.Data.Polygon([outerCoords])})
+
+	        /*map.data.setStyle({
+	          fillColor: 'red',
+	          strokeWeight: 0
+	        });*/
+
+
+	        map.addListener('click', function(e) {
+			    console.log(e.latLng.lat());
+			    console.log(e.latLng.lng());
+
+				var latlng = new google.maps.LatLng(e.latLng.lat(), e.latLng.lng());
+				markerT.setPosition(latlng);
+
+			  });
+
+	      }
+	    </script>
+	    <script async defer
+	    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNPpCPQOwkMotaDj0IgHQ7HDAE8cz6-4U&callback=initMap">
+	    </script>
+
+	</div>
+</div>
+
+<!-- jQuery 1.12.4 -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Bootstrap 3.3.78.5463 JS -->
+<script src="/public/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- Select2: plugin for styling select boxes -->
+<script src="/public/plugins/select2/select2.full.min.js" type="text/javascript"></script>
+<script src="/public/dist/js/index.js"></script>
+<script type="text/javascript">
+$(function () {
+	//Initialize Select2 Elements
+	$(".select2").select2();
+});
+</script>
+
+</body>
+</html>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div style="padding:20px;"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+			<div class="modal-body" style="padding:0 50px;">
+			<h3 id="myModalLabel">Thank you!</h3>
+			We have received your request for <b>500 mw Solar panel installation with contract option 2 (95% upfront payment)</b>. An email has been sent to your registered email address for your reference.<br><br>
+			Please note:<br><br>
+			<ul>
+				<li>In next couple of days, you will receive a detailed contract along installation details will be mailed to your registered address along with other instructions.</li>
+				<li>Please sign it and send it back our registered address along with cheque for <i class="fa fa-rupee"></i><b>2,45,000</b> in the name of <b>8 Minutes Energy</b>.<li>
+			</ul>
+			For any further enquiries please contact: <b>+91-7822-094-340</b> or email us at: <a href="mailto:switch@8minutes.com">switch@8minutes.com</a>
+			Regards,<br>
+			<img src="/public/dist/img/logo_8minutes.jpg" style="width:150px;" alt="8Minutes Logo">
+			</div>
+			<div class="modal-footer" style="border-top:0;">
+				<div class="text-center"><button type="button" class="btn btn-warning" onClick="document.location.href='user_order5.html'">Close</button></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	
+	$(function(){
+
+		$.ajax({
+			url:"/api/requirement/all",
+			type:"POST",
+			data:{token:window.sessionStorage.token},
+			success: function (d) {
+				for (var i in d){
+					var item = d[i]
+					var status = item.status || "pending";
+
+					switch(status){
+
+						case "pending" : { // default status
+						}
+						case "visiter_assigned":{
+						}
+						case "visiter_visited":{
+						}
+						case "view_proposel":{
+						}
+						case "View_Proposal":{
+							status = "<a href=\"user_schedule.html#"+item.
+							_id+"\">"+status.replace(/\_/gi, " ")+"</a>"
+							break;
+						}
+						case "View_Contract":{
+							status = "<a href=\"user_contract.html#"+item.
+							_id+"\">"+status.replace(/\_/gi, " ")+"</a>"
+							break;
+						}
+						case "View_Contract_Summary":{
+							status = "<a href=\"user_contract1.html#"+item.
+							_id+"\">"+status.replace(/\_/gi, " ")+"</a>"
+							break;
+						}
+						case "payment_complete":{
+							status = "<a href=\"user_contract1.html#"+item.
+							_id+"\">"+status.replace(/\_/gi, " ")+"</a>"
+							break;
+						}
+						case "View_Installation_Design":{
+							status = "<a href=\"user_installation.html#"+item.
+							_id+"\">"+status.replace(/\_/gi, " ")+"</a>"
+							break;
+						}
+						case "View_Installation_Progress":{
+							status = "<a href=\"user_installation1.html#"+item.
+							_id+"\">"+status.replace(/\_/gi, " ")+"</a>"
+							break;
+						}
+
+					}
+
+					var $elm = $([
+							"<tr>",
+								"<td>", (item.orderid || "") ,"</td>",
+								"<td class=\"text-left\">", item.location ,"</td>",
+								"<td class=\"text-left\">", status ,"</td>",
+							"</tr>"
+						].join(''));
+				/*<td>1</td>
+				<td class="text-left">Kutub Plaza</td>
+				<td class="text-left"><a href="user_contract.html" class="black">Contract pending</a></td>*/
+					$("#orderList").append($elm)
+				}
+				$("#orderList a").on("click", function () {
+					window.sessionStorage.id = $(this).attr("href").split("#")[1];
+				})
+			}
+		});
+
+
+
+		$.ajax({
+			url:"/api/location/all",
+			type:"POST",
+			data:{token:window.sessionStorage.token},
+            error: function () {
+
+            },
+			success: function (list) {
+				var marker = [];
+				var infowindow = [];
+				var activeInfoWndow;
+				var contentString;
+				for(var i in list){
+					d = list[i]
+					if(google)
+						var iconUrl = (d.installAt && d.installAt.toLowerCase()) ==="residential" ? "http://maps.google.com/mapfiles/ms/icons/red-dot.png":"http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+
+						contentString = '<div id="content">'+
+				            '<div id="siteNotice">'+
+				            '</div>'+
+				            '<div id="bodyContent">'+
+				            	'<table>'+
+				            		'<tr>'+
+				            			'<td>System Size</td>'+
+				            			'<td>'+d.sysSize+'</td>'+
+				            		'</tr>'+
+				            		'<tr>'+
+				            			'<td>Annual Consumption</td>'+
+				            			'<td>'+d.annual_consumption+'</td>'+
+				            		'</tr>'+
+				            		'<tr>'+
+				            			'<td>Instalation Completed On &nbsp;&nbsp;</td>'+
+				            			'<td>'+d.instalationCompletedOn+'</td>'+
+				            		'</tr>'+
+				            		'<tr>'+
+				            			'<td>Location type</td>'+
+				            			'<td>'+d.installAt+'</td>'+
+				            		'</tr>'+
+				            		'</tr>'+
+				            	'</table>'+
+				            	'<hr><b>Testimonial</b><p>'+ d.testimonial +'</p>'+
+				            '</div>'+
+				            '</div>';
+
+				        infowindow[i] = new google.maps.InfoWindow({
+				          content: contentString
+				        });
+
+						marker[i]=new google.maps.Marker({
+				          position: {lat : Number(d.lat), lng : Number(d.lng)},
+				          map: map,
+				          icon: iconUrl,
+				          title: "Location type: " + d.installAt + "\nSystem Size: " + d.sysSize
+				        });
+
+				        (function(i){
+					        marker[i].addListener('click', function() {
+
+					          if(activeInfoWndow){activeInfoWndow.close()}
+					          activeInfoWndow = infowindow[i];
+					          activeInfoWndow.open(map, marker[i]);
+					        });
+				        })(i)
+				}
+
+			}
+		});
+
+	})
+</script>

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>8 Minutes Energy: Order - Contract</title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link href="/public/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href="/public/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />	
+	<link href="/public/dist/css/8minutes.css" rel="stylesheet" type="text/css" />
+	<!-- Select2: plugin for select box styling -->
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	<style type="text/css">
+		.popover{
+			max-width:100%;
+			height:200px;
+			margin-left:200px;
+		}		
+	    #map {
+			width: 350px;
+			height: 200px;
+		}
+		#upload-contract,#check-status,#upload-design{
+			display: none;
+		}
+	</style>
+</head>
+<body class="container-fluid" style="background-color:#f0f0f0;">
+<div class="row">
+	<div class="col-xs-12 topHeader e-shadow1 bg-white" style="position:fixed; z-index:100; ">
+		<div class="row">
+			<div class="col-xs-11">
+				<img src="/public/dist/img/logo_8minutes.png" alt="8Minutes Logo">
+				<div class="pull-right grey" style="padding-top:20px;">
+					<a href="admin_order-list.html" class="navActive">Orders</a>&#8226;
+					<a href="admin_installer-list.html" class="navInactive">Installers</a>&#8226;
+					<a href="admin_companies-list.html" class="navInactive">Companies</a>&#8226;
+					<a href="admin_referrals-list.html" class="navInactive">Referrals</a>
+				</div>
+			</div>
+			<div class="col-xs-1" style="padding-top:20px;">
+				<div class="profileImg" style="background-image:url('/public/dist/img/me1.jpg');">&nbsp;</div>
+				<div class="dropdown" style="display:inline;">
+				  <a href="#" class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border:0;">
+				   <span class="caret"></span>
+				  </a>
+				  <ul class="dropdown-menu dropdown-menu-right" style="font-size:12px" aria-labelledby="dropdownMenu1">
+				    <li><a href="#" id="logout">LOGOUT</a></li>
+				  </ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row" style="background-color:#f8f8f8; padding:5px 50px; top:50px; position:fixed; border-bottom:1px solid #ddd; z-index:99; width:100%; height:120px;">
+	<div class="col-xs-12 pad20">
+		<div class="text-center">
+			<!-- <img src="/public/dist/img/me1.jpg" class="img-circle mar-r10" style="height:30px; display:inline;"-->
+			<h3 class="text-grey" style="font-size:22px; display:inline;" id="UserDetails" ></h3>
+
+			<h5 style="margin:0;">Order No: <span id="orderNo"></span></h5>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 text-center" style="margin:0; padding:0; padding-top:10px; width:100%;">
+		        <div class="btn-group">
+		           <button class="btn btn-default" style="width:40px;" onClick="document.location.href='admin_order-list.html'"><i class="fa fa-home"></i></button>
+		            <button class="btn btn-default"  id="order-details"><i class="fa fa-list mar-r10"></i>Order Details</button>
+		            <button class="btn btn-default" id="installer-visit" ><i class="fa fa-calendar-o mar-r10"></i>Installer Visit</button>
+		            <button class="btn btn-default" id="proposal"><i class="fa fa-file-o mar-r10"></i>Proposal</button>
+		           	<button class="btn btn-warning disabled" id="fin-opt"><i class="fa fa-inr mar-r10"></i>Finance Option</button>
+		            <button class="btn btn-default" id="design" ><i class="fa fa-pencil mar-r10"></i>Designs</button>
+		            <button class="btn btn-default" id="installation" ><i class="fa fa-cogs mar-r10"></i>Installation</button>
+		        </div>
+			</div>
+		</div>
+	</div>
+</div>
+<p style="margin-top:160px;">
+<!-- Customer details -->
+<div class="row">
+	<div class="col-sm-1"></div>
+	<div class="col-sm-10">
+		<div class="box">
+			<div class="row" style="background-color:#f8f8f8;">
+				<div class="col-xs-12">
+					<h3 class="text-grey text-center" style="margin:20px 0;">Finance Options</h3>
+				</div>
+			</div>
+			<p style="margin:20px;">
+			
+			<!-- <input id="editView1" type="radio" name="editView" checked value="edit"> <label for="editView1"> Edit </label>
+			<input id="editView2" type="radio" name="editView" value="view"> <label for="editView2"> View</label>
+			 -->
+			<table class="table" id="financeOpt">
+			<thead>
+				<tr>
+					<th class="text-center">Options</th>
+					<th class="text-center">Pay Upfront (100%)</th>
+					<th class="text-center">Pay Partial (30%)</th>
+					<th class="text-center">Pay Partial (15%)</th>
+					<th class="text-center">Pay Nothing (0%)</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Cost</td>
+					<td>
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_upfront_cost" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_paypartial_plan2_cost" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_paypartial_plan1_cost" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="paynothing_plan_cost" class="form-control" aria-label="">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>Cost after incentives</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_upfront_aft_inc" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_paypartial_plan2_aft_inc" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_paypartial_plan1_aft_inc" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="paynothing_plan_aft_inc" class="form-control" aria-label="">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>Average Annual Savings</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_upfront_anual_save" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_paypartial_plan2_anual_save" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_paypartial_plan1_anual_save" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="paynothing_plan_anual_save" class="form-control" aria-label="">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>Total 20 yrs savings</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_upfront_yr20_save" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_paypartial_plan2_yr20_save" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_paypartial_plan1_yr20_save" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="paynothing_plan_yr20_save" class="form-control" aria-label="">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>Advance Amount</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_upfront_advance_amount" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_paypartial_plan2_advance_amount" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_paypartial_plan1_advance_amount" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="paynothing_plan_advance_amount" class="form-control" aria-label="">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>Security Deposit</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_upfront_security_deposit" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_paypartial_plan2_security_deposit" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="fin_paypartial_plan1_security_deposit" class="form-control" aria-label="">
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+							<input type="text" id="paynothing_plan_security_deposit" class="form-control" aria-label="">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>Break Even</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<input type="text" class="form-control" aria-label="">
+							<span class="input-group-addon">Yrs</span>
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<input type="text" class="form-control" aria-label="">
+							<span class="input-group-addon">Yrs</span>
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<input type="text" class="form-control" aria-label="">
+							<span class="input-group-addon">Yrs</span>							
+						</div>
+					</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<input type="text" class="form-control" aria-label="">
+							<span class="input-group-addon">Yrs</span>							
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>Advance (%)</td>
+					<td class="text-center">
+						<div class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<span class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+								<input  type="number" class="form-control" aria-label="" placeholder="% Amount">
+								<span class="input-group-addon">%</span>
+							</span>
+						</div>
+					</td>
+					<td class="text-center">
+						<span class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<input  type="number" class="form-control" aria-label="" placeholder="% Amount">
+							<span class="input-group-addon">%</span>
+						</span>
+					</td>
+					<td class="text-center">
+						<span class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<input  type="number" class="form-control" aria-label="" placeholder="% Amount">
+							<span class="input-group-addon">%</span>
+						</span>
+					</td>
+					<td class="text-center">
+						<span class="input-group" style="width:150px; padding:0px; padding-bottom:5px;">
+							<input  type="number" class="form-control" aria-label="" placeholder="% Amount">
+							<span class="input-group-addon">%</span>
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<td>Contract copy</td>
+					<td class="text-center">
+						<img src="/public/dist/img/contract.png" class="e-shadow1" style="width:150px; border:1px solid #ddd; padding:5px;"><br><br>
+						<input class="form-control" type="file" id="file1" style="width:200px;">
+					</td>
+					<td class="text-center">
+						<img src="/public/dist/img/contract.png" class="e-shadow1" style="width:150px; border:1px solid #ddd; padding:5px;"><br><br>
+						<input class="form-control" type="file" id="file2" style="width:200px;">
+					</td>
+					<td class="text-center">
+						<img src="/public/dist/img/contract.png" class="e-shadow1" style="width:150px; border:1px solid #ddd; padding:5px;"><br><br>
+						<input class="form-control" type="file" id="file3" style="width:200px">
+					</td>
+					<td class="text-center">
+						<img src="/public/dist/img/contract.png" class="e-shadow1" style="width:150px; border:1px solid #ddd; padding:5px;"><br><br>
+						<input class="form-control" type="file" id="file4" style="width:200px;">
+					</td>
+				</tr>
+			</tbody>										
+			</table>
+			<p style="text-align:center">Warranty: <b id="warranty"> </b></p>
+		</div>
+	</div>
+	<div class="col-sm-1"></div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 text-center pad20">
+		<button class="btn btn-default" style="width:200px;" id="goBack" >Cancel</button>
+		<button class="btn btn-warning" style="width:200px;" id="submit" >Create / Update Contract</button>		
+	</div>
+	<div class="col-xs-12 text-center pad20">
+		<button class="btn btn-default" id="upload-contract" style="width:200px;" >Upload Contract</button>
+		<button class="btn btn-default" id="check-status" style="width:200px;">Check Contract Status</button>
+		<button class="btn btn-default" id="upload-design" style="width:200px;" >Upload Designs</button>
+	</div>
+		
+</div>
+<script src="/public/plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
+<script src="/public/dist/js/index.js"></script>
+<!-- jQuery 1.12.4 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Bootstrap 3.3.78.5463 JS -->
+<script src="/public/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- Select2: plugin for styling select boxes -->
+<script src="/public/plugins/select2/select2.full.min.js" type="text/javascript"></script>
+<!-- angular JS-->
+<script src="/public/plugins/angular/angular.min.js"></script>
+<script src="/public/dist/js/search.js"></script>
+<!-- select2 -->
+<script type="text/javascript">
+$(function () {
+	//Initialize Select2 Elements
+	$(".select2").select2();
+});
+</script>
+<script>
+  function initialize() {
+    var mapCanvas = document.getElementById('map');
+    var mapOptions = {
+      center: new google.maps.LatLng(44.5403, 78.5463),
+      zoom: 8,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(mapCanvas, mapOptions)
+  }
+  google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+  </body>
+</html>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div style="padding:20px;"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+			<div class="modal-body" style="padding:0 50px;">
+			<h3 id="myModalLabel">Thank you!</h3>
+			We have received your request for <b>500 mw Solar panel installation with contract option 2 (95% upfront payment)</b>. An email has been sent to your registered email address for your reference.<br><br>
+			Please note:<br><br>
+			<ul>
+				<li>In next couple of days, you will receive a detailed contract along installation details will be mailed to your registered address along with other instructions.</li>
+				<li>Please sign it and send it back our registered address along with cheque for <i class="fa fa-rupee"></i><b>2,45,000</b> in the name of <b>8 Minutes Energy</b>.<li>
+			</ul>
+			For any further enquiries please contact: <b>+91-7822-094-340</b> or email us at: <a href="mailto:switch@8minutes.com">switch@8minutes.com</a>
+			Regards,<br>
+			<img src="/public/dist/img/logo_8minutes.png" style="width:150px;" alt="8Minutes Logo">
+			</div>
+			<div class="modal-footer" style="border-top:0;">
+				<div class="text-center"><button type="button" class="btn btn-warning" onClick="document.location.href='admin_order-visit.html'">Close</button></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+	
+
+	var id = window.location.hash.split("");
+		id.shift();
+		id = id.join('');
+
+
+	function getAssesmentSuccess(d) {
+		
+		var selectedPlanColumIndex = 0;
+		switch(d.plan_chosen){
+			case "fin_upfront":{
+				selectedPlanColumIndex = 1;
+				break;	
+			}
+			case "fin_paypartial_plan1":{
+
+				selectedPlanColumIndex = 2;
+				break;	
+			}
+			case "fin_paypartial_plan2":{
+
+				selectedPlanColumIndex = 3;
+				break;	
+			}
+			case "paynothing_plan":{
+
+				selectedPlanColumIndex = 4;
+				break;	
+			}
+		}
+
+		if(selectedPlanColumIndex){
+			var $style = $("<style>#financeOpt tr td:nth-child("+ (selectedPlanColumIndex+1) +"),#financeOpt tr th:nth-child("+ (selectedPlanColumIndex+1) +"){background-color:#ffff99;}</style>");
+			$("body").append($style);
+		}
+
+		if(d.is_ctr_status){
+
+			// any data available
+
+		}else{
+			// no data available
+			//$("#editView1").attr("checked","checked");
+		}
+
+		
+		
+
+				
+
+
+		//$("#fin_upfront").val(d.fin_upfront);                     
+		$("#fin_upfront_cost").val(d.fin_upfront_cost);                 
+		$("#fin_upfront_aft_inc").val(d.fin_upfront_aft_inc);             
+		$("#fin_upfront_anual_save").val(d.fin_upfront_anual_save);          
+		$("#fin_upfront_yr20_save").val(d.fin_upfront_yr20_save);     
+		$("#fin_upfront_advance_amount").val(d.fin_upfront_advance_amount);
+		$("#fin_upfront_security_deposit").val(d.fin_upfront_security_deposit);      
+
+		//$("#fin_paypartial_plan1").val(d.fin_paypartial_plan1);            
+		$("#fin_paypartial_plan1_cost").val(d.fin_paypartial_plan1_cost);       
+		$("#fin_paypartial_plan1_aft_inc").val(d.fin_paypartial_plan1_aft_inc);    
+		$("#fin_paypartial_plan1_anual_save").val(d.fin_paypartial_plan1_anual_save); 
+		$("#fin_paypartial_plan1_yr20_save").val(d.fin_paypartial_plan1_yr20_save); 
+		$("#fin_paypartial_plan1_advance_amount").val(d.fin_paypartial_plan1_advance_amount);
+		$("#fin_paypartial_plan1_security_deposit").val(d.fin_paypartial_plan1_security_deposit); 
+
+		//$("#fin_paypartial_plan2").val(d.fin_paypartial_plan2);            
+		$("#fin_paypartial_plan2_cost").val(d.fin_paypartial_plan2_cost);       
+		$("#fin_paypartial_plan2_aft_inc").val(d.fin_paypartial_plan2_aft_inc);    
+		$("#fin_paypartial_plan2_anual_save").val(d.fin_paypartial_plan2_anual_save); 
+		$("#fin_paypartial_plan2_yr20_save").val(d.fin_paypartial_plan2_yr20_save); 
+		$("#fin_paypartial_plan2_advance_amount").val(d.fin_paypartial_plan2_advance_amount);
+		$("#fin_paypartial_plan2_security_deposit").val(d.fin_paypartial_plan2_security_deposit); 
+
+		//$("#paynothing_plan").val(d.paynothing_plan);                
+		$("#paynothing_plan_cost").val(d.paynothing_plan_cost);           
+		$("#paynothing_plan_aft_inc").val(d.paynothing_plan_aft_inc);        
+		$("#paynothing_plan_anual_save").val(d.paynothing_plan_anual_save);     
+		$("#paynothing_plan_yr20_save").val(d.paynothing_plan_yr20_save);
+		$("#paynothing_plan_advance_amount").val(d.paynothing_plan_advance_amount);
+		$("#paynothing_plan_security_deposit").val(d.paynothing_plan_security_deposit);
+	
+		$("#file1").prev().attr("src",d.fin_upfront_ctr_copy && d.fin_upfront_ctr_copy.file);           
+		$("#file1").prev().attr("alt",d.fin_upfront_ctr_copy && d.fin_upfront_ctr_copy.ext);           
+		$("#file3").prev().attr("src",d.fin_paypartial_plan2_ctr_copy && d.fin_paypartial_plan2_ctr_copy.file);  
+		$("#file3").prev().attr("alt",d.fin_paypartial_plan2_ctr_copy && d.fin_paypartial_plan2_ctr_copy.ext);  
+		$("#file2").prev().attr("src",d.fin_paypartial_plan1_ctr_copy && d.fin_paypartial_plan1_ctr_copy.file);  
+		$("#file2").prev().attr("alt",d.fin_paypartial_plan1_ctr_copy && d.fin_paypartial_plan1_ctr_copy.ext);  
+		$("#file4").prev().attr("src",d.paynothing_plan_ctr_copy && d.paynothing_plan_ctr_copy.file);      
+		$("#file4").prev().attr("alt",d.paynothing_plan_ctr_copy && d.paynothing_plan_ctr_copy.ext);   
+
+		$("#warranty").html(d.warranty || "Not selected");   
+	}
+
+
+
+
+	$('[type="file"]').change(function(e){
+	    if (this.files && this.files[0]) {
+	        var reader = new FileReader();
+
+	        var self = this;
+	        reader.onload = function (e) {
+	        	
+	            $(self).prev().attr('src', e.target.result);
+	            $(self).prev().attr('alt', $(self).val().split(".").pop() );
+	        }
+
+	        reader.readAsDataURL(this.files[0]);
+	    }
+	});
+
+	$.ajax({
+		url:'/api/assessment/'+id,
+		type:"POST",
+		data:{token : window.sessionStorage.token},
+        error: function () {
+	        
+			document.location.href = "admin_order-list.html"
+
+        },
+		success: function (d) {
+			getAssesmentSuccess(d);
+			if(!d.plan_chosen){
+				$("#check-status").show()
+			}
+		}
+	});
+
+
+	$.ajax({
+		url:'/api/requirement/'+id,
+		type:"POST",
+		data:{token : window.sessionStorage.token},
+        error: function () {
+	        
+			document.location.href = "admin_order-list.html"
+
+        },
+		success: function (d) {
+			d.status = d.status || "pending";
+			if(d.status == "pending"){
+				$("#upload-contract").show()
+			} 
+
+			if(d.status === "View_Contract"){
+					$("#upload-design").show()
+			}
+
+			
+
+			$("#UserDetails").html(d.owner_salutation + ". "+ d.owner_fname+ " "+ d.owner_lname + " - " + d.location)
+			$("#orderNo").html(d.orderid);
+		}
+	});
+
+
+		
+
+	$("#upload-contract").on("click",function () {
+		$.ajax({
+			url:'/api/assessment/'+id,
+			type:"PATCH",
+			data:{ token : window.sessionStorage.token},
+            error: function () {
+            },
+			success: function (d) {
+				showNotification("<h4>Success! Contract information was uploaded and is visiable to customer.</h4>", "success")	
+				getAssesmentSuccess(d)
+			}
+		});
+
+		$.ajax({
+			url:'/api/requirement/'+id,
+			type:"PATCH",
+			data:{ "status" : "View_Proposal" ,token : window.sessionStorage.token},
+            error: function () {
+            },
+			success: function (d) {
+			}
+		});
+
+
+	});
+
+	$("#upload-design").on("click",function () {
+
+		var r = confirm("All payments have been received!");
+		if (r == true) {
+			document.location.href = "admin_order-designs.html#"+id;
+		}
+
+
+	});
+	$("#submit").on("click",function () {
+
+		var data = {
+			_id                             : id,
+			fin_upfront                     : 100,//$("#fin_upfront").val(),                     
+			fin_upfront_cost                : $("#fin_upfront_cost").val(),                 
+			fin_upfront_aft_inc             : $("#fin_upfront_aft_inc").val(),             
+			fin_upfront_anual_save          : $("#fin_upfront_anual_save").val(),          
+			fin_upfront_yr20_save           : $("#fin_upfront_yr20_save").val(),           
+			fin_upfront_advance_amount      : $("#fin_upfront_advance_amount").val(),           
+			fin_upfront_security_deposit    : $("#fin_upfront_security_deposit").val(),           
+			fin_upfront_ctr_copy            : {
+												file:$("#file1").prev().attr("src"),
+												ext:$("#file1").prev().attr("alt")
+
+											   },           
+			
+			fin_paypartial_plan1                  : 15, //$("#fin_paypartial_plan1").val(),            
+			fin_paypartial_plan1_cost             : $("#fin_paypartial_plan1_cost").val(),       
+			fin_paypartial_plan1_aft_inc          : $("#fin_paypartial_plan1_aft_inc").val(),    
+			fin_paypartial_plan1_anual_save       : $("#fin_paypartial_plan1_anual_save").val(), 
+			fin_paypartial_plan1_yr20_save        : $("#fin_paypartial_plan1_yr20_save").val(),  
+			fin_paypartial_plan1_advance_amount   : $("#fin_paypartial_plan1_advance_amount").val(),           
+			fin_paypartial_plan1_security_deposit : $("#fin_paypartial_plan1_security_deposit").val(),           
+			fin_paypartial_plan1_ctr_copy         : {
+												file:$("#file2").prev().attr("src"),
+												ext:$("#file2").prev().attr("alt")
+
+											   },  
+			
+			fin_paypartial_plan2            : 30, //$("#fin_paypartial_plan2").val(),            
+			fin_paypartial_plan2_cost       : $("#fin_paypartial_plan2_cost").val(),       
+			fin_paypartial_plan2_aft_inc    : $("#fin_paypartial_plan2_aft_inc").val(),    
+			fin_paypartial_plan2_anual_save : $("#fin_paypartial_plan2_anual_save").val(), 
+			fin_paypartial_plan2_yr20_save  : $("#fin_paypartial_plan2_yr20_save").val(),  
+			fin_paypartial_plan2_advance_amount      : $("#fin_paypartial_plan2_advance_amount").val(),           
+			fin_paypartial_plan2_security_deposit    : $("#fin_paypartial_plan2_security_deposit").val(),           
+			fin_paypartial_plan2_ctr_copy   : {
+												file:$("#file3").prev().attr("src"),
+												ext:$("#file3").prev().attr("alt")
+
+											   },  
+			
+			paynothing_plan                 : 0, //$("#paynothing_plan").val(),                
+			paynothing_plan_cost            : $("#paynothing_plan_cost").val(),           
+			paynothing_plan_aft_inc         : $("#paynothing_plan_aft_inc").val(),        
+			paynothing_plan_anual_save      : $("#paynothing_plan_anual_save").val(),     
+			paynothing_plan_yr20_save       : $("#paynothing_plan_yr20_save").val(),
+			paynothing_plan_advance_amount      : $("#paynothing_plan_advance_amount").val(),           
+			paynothing_plan_security_deposit    : $("#paynothing_plan_security_deposit").val(),           
+			paynothing_plan_ctr_copy        : {
+												file:$("#file4").prev().attr("src"),
+												ext:$("#file4").prev().attr("alt")
+
+											   },
+			token                           : window.sessionStorage.token
+
+
+		};
+
+		$.ajax({
+			url:'/api/assessment/'+id,
+			type:"PATCH",
+			data:data,
+            error: function () {
+		        $.ajax({
+					url:'/api/assessment',
+					type:"POST",
+					data:data,
+		            error: function () {
+				        document.location.href = "admin_order-list.html"
+		            },
+					success: function (d) {
+						getAssesmentSuccess(d)
+						$("#editView2").attr("checked","checked");
+					}
+				});
+
+            },
+			success: function (d) {
+				getAssesmentSuccess(d);
+				showNotification("<h4>Success! Contract was updated.</h4>", "success")	
+				//document.location.href='admin_order-contract1.html#'+id;
+			}
+		});
+
+	})
+
+
+	$("#check-status").on("click",function(){
+		$.ajax({
+			url:'/api/assessment/'+id,
+			type:"PATCH",
+			data:{ /*"plan_chosen" : "fin_upfront" ,*/token : window.sessionStorage.token},
+            error: function () {
+				        document.location.href = "admin_order-list.html"
+            },
+			success: function (d) {
+				if(!d.plan_chosen)
+					showNotification("Success! User has not chosen any plan yet.", "success")	
+				getAssesmentSuccess(d)
+			}
+		});
+	})
+
+
+
+	$("#order-details").on("click",function (e) {
+        	document.location.href = "admin_order-details.html#" + id
+    });
+    $("#installer-visit").on("click",function (e) {
+    	document.location.href = "admin_order-visit.html#" + id
+    });
+    $("#proposal").on("click",function (e) {
+    	document.location.href = "admin_order-proposal.html#" + id
+    });
+    $("#fin-opt").on("click",function (e) {
+    	document.location.href = "admin_order-contract.html#" + id
+    });
+    $("#design").on("click",function (e) {
+    	document.location.href = "admin_order-designs.html#" + id
+    });
+    $("#installation").on("click",function (e) {
+    	document.location.href = "admin_order-timeline.html#" + id
+    });
+
+    $("#goBack").on("click", function () {
+    	document.location.href = "admin_order-proposal.html#" + id
+    })
+
+</script>
